@@ -1,49 +1,22 @@
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  flex-direction: row;
+  justify-content:center;
 }
 
-.App-link {
-  color: #61dafb;
+.sidebar {
+  border: 1px solid red;
+  padding: 20px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.debug {
+  font-family: monospace;
+  padding: 20px;
+  background-color: #f3f3f3;
 }
 
-.OwnerGrid {
-  font-size: 0px;
-  text-align: center;
-}
-
-.Cell {
-  border: 1px solid rgb(214, 214, 214);
-  height: 20px;
-  width: 20px;
+.simulator {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
