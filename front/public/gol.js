@@ -97,6 +97,9 @@ function mouseClicked() {
   const h = height / rows;
   const w = width / cols;
   const cell = Math.floor(mouseY / h) * cols + Math.floor(mouseX / w)
+  if(cells[cell] !== 0){
+    return;
+  }
   cells[cell] = activeTeam;
   connection.send(JSON.stringify({action: "SET_CELL", cell, team: activeTeam}))
 }
