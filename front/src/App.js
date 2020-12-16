@@ -1,73 +1,23 @@
+import React, { useCallback, useState, useEffect } from "react";
 import "./App.css";
-import React, { useState, useEffect } from "react";
+import Grid from "./Grid.js";
 import LedgerLife from "./controller/LedgerLife.js";
 
 const ledgerLife = new LedgerLife();
 
-function OwnerCell({ address, index, onSelection }) {
-  const [isOwned, setOwned] = useState();
-  const [isSelected, setSelected] = useState(false);
-
-  useEffect(() => {
-    setOwned(address === "0x0000000000000000000000000000000000000000" ? false : true);
-    isOwned && setSelected(false);
-  }, [isOwned, address]);
-  return (
-    <td>
-      <div
-        className="Cell"
-        disabled={isOwned}
-        style={{ background: isOwned ? "#000" : isSelected ? "#F00" : "#FFF" }}
-        onClick={() => {
-          if (!isOwned) {
-            setSelected(true);
-            onSelection(index);
-          }
-        }}
-      ></div>
-    </td>
-  );
-}
-
-function OwnerGrid({ hidden, data, onSelection }) {
-  let chunkLen = 32;
-  let grid = [];
-  for (let i = 0; i < data.length; i += chunkLen) {
-    grid.push(data.slice(i, i + chunkLen));
-  }
-  return (
-    <div className="OwnerGrid">
-      <table>
-        <tbody>
-          {!hidden &&
-            grid.map((adoptersRow, index_row) => (
-              <tr key={index_row}>
-                {adoptersRow.map((adopter, index_col) => (
-                  <OwnerCell
-                    key={index_col}
-                    address={adopter}
-                    index={index_row * adoptersRow.length + index_col}
-                    onSelection={onSelection}
-                  ></OwnerCell>
-                ))}
-              </tr>
-            ))}
-        </tbody>
-      </table>
-    </div>
-  );
-}
-
 function App() {
-  function updateData() {
+  const [isConnected, setConnected] = useState(false);
+  const [ownerGrid, setOwnerGrid] = useState([]);
+  const [selectedCells, setSelectedCells] = useState([]);
+
+  const updateData = useCallback(() => {
     return new Promise(async (resolve) => {
-      console.log("hello");
       let data = await ledgerLife.getGrid();
       console.log(data);
       setOwnerGrid(data);
       resolve();
     });
-  }
+  }, []);
 
   useEffect(
     () =>
@@ -75,12 +25,8 @@ function App() {
         .connect()
         .then(setConnected(true))
         .then(() => updateData()),
-    [],
+    [updateData],
   );
-
-  const [isConnected, setConnected] = useState(false);
-  const [ownerGrid, setOwnerGrid] = useState([]);
-  const [selectedCells, setSelectedCells] = useState([]);
 
   return (
     <div className="App">
@@ -103,11 +49,13 @@ function App() {
         >
           life
         </button>
-        <OwnerGrid
+        <Grid
           hidden={!isConnected}
           data={ownerGrid}
+          selectedCells={selectedCells}
           onSelection={(cellIndex) => setSelectedCells([...selectedCells, cellIndex])}
-        ></OwnerGrid>
+        ></Grid>
+        <div>{JSON.stringify(selectedCells)}</div>
       </header>
     </div>
   );
