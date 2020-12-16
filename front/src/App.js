@@ -13,6 +13,8 @@ const ledgerLife = new LedgerLife();
 function App() {
   const [isConnected, setConnected] = useState(false);
   const [simulationOffset, setSimulationOffset] = useState(0);
+  const [nonce, setNonce] = useState(0);
+  const onDone = useCallback(() => setNonce(nonce + 1), [nonce]);
   const [ownerGrid, setOwnerGrid] = useState([]);
   const [selectedCells, setSelectedCells] = useState([]);
   const onClearCell = useCallback(
@@ -45,10 +47,27 @@ function App() {
   );
 
   return (
+    <>
+    <h1 className="header">{"much wow"}</h1>
     <div className="App">
       <SidebarLeft />
       <div className="Content">
-        <ProgressBars />
+        <ProgressBars onDone={onDone} nonce={nonce} />
+
+        <Grid
+          hidden={!isConnected}
+          data={ownerGrid}
+          selectedCells={selectedCells}
+          simulationOffset={simulationOffset}
+          onSelection={(cellIndex) => setSelectedCells([...selectedCells, cellIndex])}
+          onClearCell={onClearCell}
+        ></Grid>
+        <Simulation
+          onSimulateBack={onSimulateBack}
+          onSimulateForward={onSimulateForward}
+          simulationOffset={simulationOffset}
+        />
+        <DebugBar>{JSON.stringify({ selectedCells })}</DebugBar>
         <button
           onClick={() => {
             console.log(selectedCells);
@@ -67,23 +86,10 @@ function App() {
         >
           life
         </button>
-        <Grid
-          hidden={!isConnected}
-          data={ownerGrid}
-          selectedCells={selectedCells}
-          simulationOffset={simulationOffset}
-          onSelection={(cellIndex) => setSelectedCells([...selectedCells, cellIndex])}
-          onClearCell={onClearCell}
-        ></Grid>
-        <Simulation
-          onSimulateBack={onSimulateBack}
-          onSimulateForward={onSimulateForward}
-          simulationOffset={simulationOffset}
-        />
-        <DebugBar>{JSON.stringify({ selectedCells })}</DebugBar>
       </div>
       <SidebarRight ownerGrid={ownerGrid} />
     </div>
+    </>
   );
 }
 

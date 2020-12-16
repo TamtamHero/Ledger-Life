@@ -1,3 +1,14 @@
+body{
+  background-color: #eaffd0;
+}
+
+h1 {
+  color: #f38181;
+}
+h1.header{
+  font-size: 100px;
+  text-align: center;
+}
 .App {
   display: flex;
   flex-direction: row;
@@ -38,4 +49,29 @@
   border-radius: 5px;
   color: white;
   background-color: #52B987;
+}
+
+.bar {
+  height: 20px;
+  width: 100%;
+  background-color: gainsboro;
+  transition: width 1s ease-in;
+}
+
+.barProgress {
+  height: 100%;
+  width: 0%;
+  background-color:#7b5ab9;
+  transition: width 30s ease-in;
+}
+
+.barProgress {
+  animation: w100 30s linear forwards;
+}
+.bar .barProgress {
+  width: 100%;
+}
+@keyframes w100 {
+  from { width: 0%; }
+  to { width: 100%; }
 }

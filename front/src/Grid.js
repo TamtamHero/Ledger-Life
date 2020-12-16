@@ -2,23 +2,23 @@ import React, { useMemo, useCallback, useState } from "react";
 import Sketch from "react-p5";
 
 const colors = [
-  [200, 200, 200],
+  "#f9ed69",
   [255, 0, 0],
   [0, 255, 0],
   [0, 0, 255],
 ];
 
 const Grid = ({ data, hidden, selectedCells, onSelection, onClearCell, simulationOffset }) => {
-  const width = 600;
-  const height = 600;
+  const width = 640;
+  const height = 640;
   const rows = 32;
   const cols = 32;
   const death = "0x0000000000000000000000000000000000000000";
   const futurePurchase = "futurePurchase";
 
   const [colorMap, setColorMap] = useState({
-    [death]: [200, 200, 200],
-    futurePurchase: [0, 255, 0, 190],
+    [death]: "#eaffd0",
+    futurePurchase: "#f38181",
   });
 
   const getNewCellState = useCallback((data, cell) => {
@@ -98,7 +98,7 @@ const Grid = ({ data, hidden, selectedCells, onSelection, onClearCell, simulatio
     for (let x = 1; x < cols; x++) {
       p5.line(x * w, 0, x * w, height);
     }
-    p5.stroke(126);
+    p5.stroke(0);
 
     //Draw active boxes
     for (let cell = 0; cell < compoundData.length; cell++) {
