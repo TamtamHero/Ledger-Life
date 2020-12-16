@@ -2,10 +2,11 @@ import React, { useMemo, useCallback, useState } from "react";
 import Sketch from "react-p5";
 
 const Grid = ({ data, hidden, selectedCells, onSelection, onClearCell, simulationOffset }) => {
-  const width = 640;
-  const height = 640;
-  const rows = 32;
-  const cols = 32;
+  const width = 660;
+  const height = 660;
+  const rows = 20;
+  const cols = 20;
+  const space = 6;
   const death = 0;
   const futurePurchase = "futurePurchase";
 
@@ -69,7 +70,7 @@ const Grid = ({ data, hidden, selectedCells, onSelection, onClearCell, simulatio
   const getColor = useCallback(
     (team) => {
       if (team in colorMap) return colorMap[team];
-      const nextColor = "#"+Math.floor(Math.random()*16777215).toString(16);
+      const nextColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
       setColorMap({ ...colorMap, [team]: nextColor });
       return nextColor;
     },
@@ -78,29 +79,37 @@ const Grid = ({ data, hidden, selectedCells, onSelection, onClearCell, simulatio
 
   let setup = (p5, canvasParentRef) => {
     p5.createCanvas(width, height).parent(canvasParentRef);
+    p5.fill("#00000000");
+    p5.noStroke();
   };
 
   let draw = (p5) => {
-    p5.background([255, 255, 255]);
-    const h = height / rows;
-    const w = width / cols;
+    const w = (width - cols * space) / cols;
+    const _h = height / rows;
+    const _w = width / cols;
     // Draw grid
-    for (let y = 1; y < rows; y++) {
-      p5.line(0, y * h, width, y * h);
-    }
-    for (let x = 1; x < cols; x++) {
-      p5.line(x * w, 0, x * w, height);
-    }
-    p5.stroke(0);
-
+    // for (let y = 1; y < rows; y++) {
+    //   p5.line(0, y * h, width, y * h);
+    // }
+    // for (let x = 1; x < cols; x++) {
+    //   p5.line(x * w, 0, x * w, height);
+    // }
+    // p5.stroke(0);
     //Draw active boxes
     for (let cell = 0; cell < compoundData.length; cell++) {
       const team = compoundData[cell];
       const x = cell % cols;
       const y = Math.floor(cell / cols);
       const color = getColor(team);
+
+      p5.fill("#654062");
+      p5.strokeWeight(0);
+      p5.circle(2 + _w * x + w / 2, 2 + _h * y + w / 2 + _h / 15, w);
+
       p5.fill(color);
-      p5.rect(w * x, h * y, w, h);
+      p5.strokeWeight(2);
+      p5.stroke("#654062");
+      p5.circle(2 + _w * x + w / 2, 2 + _h * y + w / 2, w);
     }
   };
 

@@ -35,10 +35,19 @@ function App() {
     () => (simulationOffset > 0 ? setSimulationOffset(simulationOffset - 1) : null),
     [simulationOffset],
   );
+  const onLife = useCallback(() => ledgerLife.life().then(() => updateData()), [updateData]);
+  const onReset = useCallback(() => setSelectedCells([]), []);
   const onSimulateForward = useCallback(() => {
     setSimulationOffset(simulationOffset + 1);
   }, [simulationOffset]);
-
+  const onBuy = useCallback(
+    () =>
+      ledgerLife
+        .buyCells(selectedCells)
+        .then(() => updateData())
+        .then(() => setSelectedCells([])),
+    [selectedCells, updateData],
+  );
   useEffect(
     () =>
       ledgerLife
@@ -70,26 +79,14 @@ function App() {
             simulationOffset={simulationOffset}
           />
           <DebugBar>{JSON.stringify({ selectedCells })}</DebugBar>
-          <button
-            onClick={() => {
-              console.log(selectedCells);
-              ledgerLife
-                .buyCells(selectedCells)
-                .then(() => updateData())
-                .then(() => setSelectedCells([]));
-            }}
-          >
-            {selectedCells.length ? "Buy selected cells" : "Select cells to buy"}
-          </button>
-          <button
-            onClick={() => {
-              ledgerLife.life().then(() => updateData());
-            }}
-          >
-            life
-          </button>
         </div>
-        <SidebarRight players={players} />
+        <SidebarRight
+          players={players}
+          selectedCells={selectedCells}
+          onLife={onLife}
+          onReset={onReset}
+          onBuy={onBuy}
+        />
       </div>
     </>
   );

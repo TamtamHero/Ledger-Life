@@ -3,11 +3,15 @@ import React from "react";
 const Simulation = ({ onSimulateBack, onSimulateForward, simulationOffset }) => {
   return (
     <>
-      <h1>Simulation</h1>
+      <h1 style={{ marginTop: 20 }}>Simulation</h1>
       <div className={"simulator"}>
-        <button onClick={onSimulateBack}>{"<<"}</button>
-        <div>{simulationOffset}</div>
-        <button onClick={onSimulateForward}>{">>"}</button>
+        <div className={"button"} onClick={onSimulateBack}>
+          {"<<"}
+        </div>
+        <div className={"offset"}>{simulationOffset}</div>
+        <div className={"button"} onClick={onSimulateForward}>
+          {">>"}
+        </div>
       </div>
     </>
   );

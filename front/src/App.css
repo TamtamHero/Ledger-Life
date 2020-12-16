@@ -1,9 +1,10 @@
 body{
-  background-color: #eaffd0;
+  background-color: #65d6ce;
+  padding: 20px;
 }
 
 h1 {
-  color: #f38181;
+  color: #654062;
 }
 h1.header{
   font-size: 40px;
@@ -12,6 +13,38 @@ h1.header{
 h1{
   margin: 0;
 }
+
+.offset {
+  flex:1;
+  text-align:center;
+  font-size: 30px;
+  color:#654062;
+  font-weight: bolder;
+}
+
+.button {
+  font-weight: bold;
+  flex: 1;
+  padding: 10px 20px;
+  background-color: #95e1d3;
+  display: block;
+  text-align: center;
+  color: #7b5ab9;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 1px solid #7b5ab9;
+  border-bottom-width: 6px;
+}
+.button.disabled {
+  cursor: arrow;
+  background-color:gray;
+  color:black;
+  opacity: 0.5;
+}
+.mtop {
+  margin-top: 20px;
+}
+
 .App {
   display: flex;
   flex-direction: row;
@@ -57,12 +90,14 @@ h1{
 .bar {
   height: 20px;
   width: 100%;
+  margin-bottom: 20px;
   background-color: gainsboro;
   transition: width 1s ease-in;
 }
 
 .barProgress {
   height: 100%;
+  
   width: 0%;
   background-color:#7b5ab9;
   transition: width 30s ease-in;
