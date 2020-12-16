@@ -51,6 +51,10 @@ class LedgerLife {
     return await this.contractsInstances.LedgerLife.getGrid.call();
   }
 
+  async getPlayers() {
+    return await this.contractsInstances.LedgerLife.getPlayers.call();
+  }
+
   _serializeCellsArray(cellsArray) {
     let serialized = new Web3.utils.BN(0);
     cellsArray.forEach((cell) => {
@@ -70,7 +74,22 @@ class LedgerLife {
     return "0x" + serialized.toString(16);
   }
 
+  async _getFreeID() {
+    let instance = await this.contracts.LedgerLife.deployed();
+    let accounts = await this.web3.eth.getAccounts();
+    let players = await this.getPlayers();
+    players.forEach((player, index) => {
+      if (player === "0x0000000000000000000000000000000000000000") {
+        return index;
+      }
+    });
+  }
+
   async buyCells(cells) {
+    let playerID = this.playerID;
+    if (playerID === 0) {
+      playerID = this._getFreeID();
+    }
     let serializedCells = this._serializeCellsArray(cells);
     console.log(serializedCells);
     let instance = await this.contracts.LedgerLife.deployed();
