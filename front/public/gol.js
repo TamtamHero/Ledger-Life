@@ -107,6 +107,16 @@ function mouseClicked() {
 function tick(){
   connection.send(JSON.stringify({action: "TICK"}))
 }
+let interval;
+function play(){
+  if(interval) return;
+  interval = setInterval(tick,300);
+}
+
+function pause(){
+  if(!interval) return;
+  clearInterval(interval);
+}
 
 function changeTeam(e) {
   activeTeam = +e.value;
