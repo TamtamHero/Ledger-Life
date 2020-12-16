@@ -1,12 +1,7 @@
 import React, { useMemo, useCallback, useState } from "react";
 import Sketch from "react-p5";
 
-const colors = [
-  "#f9ed69",
-  [255, 0, 0],
-  [0, 255, 0],
-  [0, 0, 255],
-];
+const colors = ["#f9ed69", [255, 0, 0], [0, 255, 0], [0, 0, 255]];
 
 const Grid = ({ data, hidden, selectedCells, onSelection, onClearCell, simulationOffset }) => {
   const width = 640;

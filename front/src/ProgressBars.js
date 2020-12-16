@@ -3,10 +3,10 @@ import React, { useState, useEffect } from "react";
 const ProgressBars = ({ onDone, nonce }) => {
   const [className, setClassName] = useState();
 
-  useEffect(()=>setClassName("barProgress"),[nonce])
+  useEffect(() => setClassName("barProgress"), [nonce]);
   useEffect(() => {
-    setTimeout(()=>{
-      setClassName("")
+    setTimeout(() => {
+      setClassName("");
       onDone();
     }, 30000);
   }, [onDone]);
@@ -14,7 +14,7 @@ const ProgressBars = ({ onDone, nonce }) => {
   return (
     <div key={nonce} className="progressBarWrapper">
       <div className="bar">
-        <div className={className}/>
+        <div className={className} />
       </div>
     </div>
   );

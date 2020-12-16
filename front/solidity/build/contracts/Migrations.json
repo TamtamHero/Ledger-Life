@@ -57,24 +57,14 @@
   "ast": {
     "absolutePath": "/Users/user1/Desktop/Ledger-Life/front/solidity/contracts/Migrations.sol",
     "exportedSymbols": {
-      "Migrations": [
-        604
-      ]
+      "Migrations": [604]
     },
     "id": 605,
     "nodeType": "SourceUnit",
     "nodes": [
       {
         "id": 573,
-        "literals": [
-          "solidity",
-          ">=",
-          "0.4",
-          ".22",
-          "<",
-          "0.8",
-          ".0"
-        ],
+        "literals": ["solidity", ">=", "0.4", ".22", "<", "0.8", ".0"],
         "nodeType": "PragmaDirective",
         "src": "32:32:2"
       },
@@ -85,9 +75,7 @@
         "documentation": null,
         "fullyImplemented": true,
         "id": 604,
-        "linearizedBaseContracts": [
-          604
-        ],
+        "linearizedBaseContracts": [604],
         "name": "Migrations",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -276,10 +264,7 @@
                       "id": 581,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        622,
-                        623
-                      ],
+                      "overloadedDeclarations": [622, 623],
                       "referencedDeclaration": 623,
                       "src": "196:7:2",
                       "typeDescriptions": {
@@ -461,24 +446,14 @@
   "legacyAST": {
     "absolutePath": "/Users/user1/Desktop/Ledger-Life/front/solidity/contracts/Migrations.sol",
     "exportedSymbols": {
-      "Migrations": [
-        604
-      ]
+      "Migrations": [604]
     },
     "id": 605,
     "nodeType": "SourceUnit",
     "nodes": [
       {
         "id": 573,
-        "literals": [
-          "solidity",
-          ">=",
-          "0.4",
-          ".22",
-          "<",
-          "0.8",
-          ".0"
-        ],
+        "literals": ["solidity", ">=", "0.4", ".22", "<", "0.8", ".0"],
         "nodeType": "PragmaDirective",
         "src": "32:32:2"
       },
@@ -489,9 +464,7 @@
         "documentation": null,
         "fullyImplemented": true,
         "id": 604,
-        "linearizedBaseContracts": [
-          604
-        ],
+        "linearizedBaseContracts": [604],
         "name": "Migrations",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -680,10 +653,7 @@
                       "id": 581,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        622,
-                        623
-                      ],
+                      "overloadedDeclarations": [622, 623],
                       "referencedDeclaration": 623,
                       "src": "196:7:2",
                       "typeDescriptions": {

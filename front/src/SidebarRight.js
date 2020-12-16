@@ -1,24 +1,18 @@
-import React, { useMemo } from "react";
+import React from "react";
 
-const SidebarRight = ({ ownerGrid }) => {
-  const board = useMemo(() => {
-    let board = {};
-    for (let i = 0; i < ownerGrid.length; i++) {
-      board[ownerGrid[i]] = (board[ownerGrid[i]] || 0) + 1;
-    }
-    return board;
-  }, [ownerGrid]);
-
+const SidebarRight = ({ players }) => {
   return (
     <div className="sidebar">
       <h1>{"leaderboard"}</h1>
       <div>
-        {Object.keys(board).map((address) => (
-          <div key={address} className="addressWrapper">
-            <span className="cappedAddress">{address}</span>
-            <span className="score">{board[address]}</span>
-          </div>
-        ))}
+        {Object.keys(players).map((id) =>
+          id === "0x0000000000000000000000000000000000000000" ? null : (
+            <div key={id} className="addressWrapper">
+              <span className="cappedAddress">{id}</span>
+              <span className="score">{players[id]}</span>
+            </div>
+          ),
+        )}
       </div>
     </div>
   );

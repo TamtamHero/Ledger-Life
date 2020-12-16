@@ -51,47 +51,47 @@ function App() {
 
   return (
     <>
-    <h1 className="header">{"much wow"}</h1>
-    <div className="App">
-      <SidebarLeft />
-      <div className="Content">
-        <ProgressBars onDone={onDone} nonce={nonce} />
+      <h1 className="header">{"much wow"}</h1>
+      <div className="App">
+        <SidebarLeft />
+        <div className="Content">
+          <ProgressBars onDone={onDone} nonce={nonce} />
 
-        <Grid
-          hidden={!isConnected}
-          data={ownerGrid}
-          selectedCells={selectedCells}
-          simulationOffset={simulationOffset}
-          onSelection={(cellIndex) => setSelectedCells([...selectedCells, cellIndex])}
-          onClearCell={onClearCell}
-        ></Grid>
-        <Simulation
-          onSimulateBack={onSimulateBack}
-          onSimulateForward={onSimulateForward}
-          simulationOffset={simulationOffset}
-        />
-        <DebugBar>{JSON.stringify({ selectedCells })}</DebugBar>
-        <button
-          onClick={() => {
-            console.log(selectedCells);
-            ledgerLife
-              .buyCells(selectedCells)
-              .then(() => updateData())
-              .then(() => setSelectedCells([]));
-          }}
-        >
-          {selectedCells.length ? "Buy selected cells" : "Select cells to buy"}
-        </button>
-        <button
-          onClick={() => {
-            ledgerLife.life().then(() => updateData());
-          }}
-        >
-          life
-        </button>
+          <Grid
+            hidden={!isConnected}
+            data={ownerGrid}
+            selectedCells={selectedCells}
+            simulationOffset={simulationOffset}
+            onSelection={(cellIndex) => setSelectedCells([...selectedCells, cellIndex])}
+            onClearCell={onClearCell}
+          ></Grid>
+          <Simulation
+            onSimulateBack={onSimulateBack}
+            onSimulateForward={onSimulateForward}
+            simulationOffset={simulationOffset}
+          />
+          <DebugBar>{JSON.stringify({ selectedCells })}</DebugBar>
+          <button
+            onClick={() => {
+              console.log(selectedCells);
+              ledgerLife
+                .buyCells(selectedCells)
+                .then(() => updateData())
+                .then(() => setSelectedCells([]));
+            }}
+          >
+            {selectedCells.length ? "Buy selected cells" : "Select cells to buy"}
+          </button>
+          <button
+            onClick={() => {
+              ledgerLife.life().then(() => updateData());
+            }}
+          >
+            life
+          </button>
+        </div>
+        <SidebarRight players={players} />
       </div>
-      <SidebarRight players={players} />
-    </div>
     </>
   );
 }
