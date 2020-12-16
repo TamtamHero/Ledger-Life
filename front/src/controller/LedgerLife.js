@@ -50,8 +50,7 @@ class LedgerLife {
 
   async getGrid() {
     let grid = await this.contractsInstances.LedgerLife.getGrid.call();
-    grid = grid.map(playerID => playerID.toString());
-    return grid;
+    return grid.map(playerID => parseInt(playerID.toString()));
   }
 
   async getPlayers() {
