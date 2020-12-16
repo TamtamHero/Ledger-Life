@@ -1,67 +1,26 @@
+import React, { useCallback, useState, useEffect } from "react";
 import "./App.css";
-import React, { useState, useEffect } from "react";
+import Grid from "./Grid.js";
+import SidebarLeft from "./SidebarLeft.js";
+import SidebarRight from "./SidebarRight.js";
+import DebugBar from "./DebugBar.js";
+import ProgressBars from "./ProgressBars.js";
+import Simulation from "./Simulation.js";
 import LedgerLife from "./controller/LedgerLife.js";
 
 const ledgerLife = new LedgerLife();
 
-function OwnerCell({ playerID, index, onSelection }) {
-  const [isOwned, setOwned] = useState();
-  const [isSelected, setSelected] = useState(false);
-
-  useEffect(() => {
-    setOwned(playerID.toString() === "0" ? false : true);
-    isOwned && setSelected(false);
-  }, [isOwned, playerID]);
-  return (
-    <td>
-      <div
-        className="Cell"
-        disabled={isOwned}
-        style={{ background: isOwned ? "#000" : isSelected ? "#F00" : "#FFF" }}
-        onClick={() => {
-          if (!isOwned) {
-            setSelected(true);
-            onSelection(index);
-          }
-        }}
-      ></div>
-    </td>
-  );
-}
-
-function OwnerGrid({ hidden, data, onSelection }) {
-  let chunkLen = 32;
-  let grid = [];
-  for (let i = 0; i < data.length; i += chunkLen) {
-    grid.push(data.slice(i, i + chunkLen));
-  }
-  return (
-    <div className="OwnerGrid">
-      <table>
-        <tbody>
-          {!hidden &&
-            grid.map((cellRow, index_row) => (
-              <tr key={index_row}>
-                {cellRow.map((playerID, index_col) => (
-                  <OwnerCell
-                    key={index_col}
-                    playerID={playerID}
-                    index={index_row * cellRow.length + index_col}
-                    onSelection={onSelection}
-                  ></OwnerCell>
-                ))}
-              </tr>
-            ))}
-        </tbody>
-      </table>
-    </div>
-  );
-}
-
 function App() {
-  function updateData() {
+  const [isConnected, setConnected] = useState(false);
+  const [simulationOffset, setSimulationOffset] = useState(0);
+  const [ownerGrid, setOwnerGrid] = useState([]);
+  const [selectedCells, setSelectedCells] = useState([]);
+  const onClearCell = useCallback(
+    (cell) => setSelectedCells(selectedCells.filter((c) => cell !== c)),
+    [selectedCells],
+  );
+  const updateData = useCallback(() => {
     return new Promise(async (resolve) => {
-      console.log("hello");
       let data = await ledgerLife.getGrid();
       let players = await ledgerLife.getPlayers();
       console.log(data);
@@ -70,7 +29,14 @@ function App() {
       setOwnerGrid(data);
       resolve();
     });
-  }
+  }, []);
+  const onSimulateBack = useCallback(
+    () => (simulationOffset > 0 ? setSimulationOffset(simulationOffset - 1) : null),
+    [simulationOffset],
+  );
+  const onSimulateForward = useCallback(() => {
+    setSimulationOffset(simulationOffset + 1);
+  }, [simulationOffset]);
 
   useEffect(
     () =>
@@ -78,16 +44,14 @@ function App() {
         .connect()
         .then(setConnected(true))
         .then(() => updateData()),
-    [],
+    [updateData],
   );
-
-  const [isConnected, setConnected] = useState(false);
-  const [ownerGrid, setOwnerGrid] = useState([]);
-  const [selectedCells, setSelectedCells] = useState([]);
 
   return (
     <div className="App">
-      <header className="App-header">
+      <SidebarLeft />
+      <div className="Content">
+        <ProgressBars />
         <button
           onClick={() => {
             console.log(selectedCells);
@@ -106,12 +70,22 @@ function App() {
         >
           life
         </button>
-        <OwnerGrid
+        <Grid
           hidden={!isConnected}
           data={ownerGrid}
+          selectedCells={selectedCells}
+          simulationOffset={simulationOffset}
           onSelection={(cellIndex) => setSelectedCells([...selectedCells, cellIndex])}
-        ></OwnerGrid>
-      </header>
+          onClearCell={onClearCell}
+        ></Grid>
+        <Simulation
+          onSimulateBack={onSimulateBack}
+          onSimulateForward={onSimulateForward}
+          simulationOffset={simulationOffset}
+        />
+        <DebugBar>{JSON.stringify({ selectedCells })}</DebugBar>
+      </div>
+      <SidebarRight ownerGrid={ownerGrid} />
     </div>
   );
 }
