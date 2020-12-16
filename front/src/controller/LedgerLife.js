@@ -74,8 +74,12 @@ class LedgerLife {
     return "0x" + serialized.toString(16);
   }
 
-  async _getFreeID() {
+  async _getPlayerID(playerAddress) {
     let players = await this.getPlayers();
+    const alreadyExistingPlayer = players.find(player => player[0] === playerAddress);
+    if(alreadyExistingPlayer){
+      return alreadyExistingPlayer;
+    }
     for (const [index, player] of players.entries()) {
       if (index !== 0 && player[0] === "0x0000000000000000000000000000000000000000") {
         return index;
@@ -87,7 +91,7 @@ class LedgerLife {
   async buyCells(cells) {
     let playerID = this.playerID;
     if (playerID === null) {
-      playerID = await this._getFreeID();
+      playerID = await this._getPlayerID();
     }
     console.log(`playerID: ${playerID}`);
     let serializedCells = this._serializeCellsArray(cells);
