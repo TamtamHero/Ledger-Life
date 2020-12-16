@@ -4,14 +4,14 @@ import LedgerLife from "./controller/LedgerLife.js";
 
 const ledgerLife = new LedgerLife();
 
-function OwnerCell({ address, index, onSelection }) {
+function OwnerCell({ playerID, index, onSelection }) {
   const [isOwned, setOwned] = useState();
   const [isSelected, setSelected] = useState(false);
 
   useEffect(() => {
-    setOwned(address === "0x0000000000000000000000000000000000000000" ? false : true);
+    setOwned(playerID.toString() === "0" ? false : true);
     isOwned && setSelected(false);
-  }, [isOwned, address]);
+  }, [isOwned, playerID]);
   return (
     <td>
       <div
@@ -40,13 +40,13 @@ function OwnerGrid({ hidden, data, onSelection }) {
       <table>
         <tbody>
           {!hidden &&
-            grid.map((adoptersRow, index_row) => (
+            grid.map((cellRow, index_row) => (
               <tr key={index_row}>
-                {adoptersRow.map((adopter, index_col) => (
+                {cellRow.map((playerID, index_col) => (
                   <OwnerCell
                     key={index_col}
-                    address={adopter}
-                    index={index_row * adoptersRow.length + index_col}
+                    playerID={playerID}
+                    index={index_row * cellRow.length + index_col}
                     onSelection={onSelection}
                   ></OwnerCell>
                 ))}
@@ -63,7 +63,10 @@ function App() {
     return new Promise(async (resolve) => {
       console.log("hello");
       let data = await ledgerLife.getGrid();
+      let players = await ledgerLife.getPlayers();
       console.log(data);
+      console.log(data[0].toString());
+      console.log(players);
       setOwnerGrid(data);
       resolve();
     });
