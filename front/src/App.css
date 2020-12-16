@@ -5,7 +5,6 @@
 }
 
 .sidebar {
-  border: 1px solid red;
   padding: 20px;
 }
 
@@ -19,4 +18,24 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+.addressWrapper {
+  display: flex;
+  align-items: center;
+}
+.cappedAddress {
+  max-width: 130px;
+  color: gray;
+  display:inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.score {
+  padding: 4px 8px;
+  border-radius: 5px;
+  color: white;
+  background-color: #52B987;
 }

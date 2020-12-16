@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useCallback, useState } from "react";
+import React, { useMemo, useCallback, useState } from "react";
 import Sketch from "react-p5";
 
 const colors = [
@@ -8,12 +8,14 @@ const colors = [
   [0, 0, 255],
 ];
 
-const Grid = ({ data, hidden, selectedCells, onSelection, simulationOffset }) => {
-  const width = 400;
-  const height = 400;
+const Grid = ({ data, hidden, selectedCells, onSelection, onClearCell, simulationOffset }) => {
+  const width = 600;
+  const height = 600;
   const rows = 32;
   const cols = 32;
   const death = "0x0000000000000000000000000000000000000000";
+  const futurePurchase = "futurePurchase";
+
   const [colorMap, setColorMap] = useState({
     [death]: [200, 200, 200],
     futurePurchase: [0, 255, 0, 190],
@@ -58,7 +60,7 @@ const Grid = ({ data, hidden, selectedCells, onSelection, simulationOffset }) =>
   const compoundData = useMemo(() => {
     let compound = [...data];
     for (let i = 0; i < selectedCells.length; i++) {
-      compound[selectedCells[i]] = "futurePurchase";
+      compound[selectedCells[i]] = futurePurchase;
     }
     for (let i = 0; i < simulationOffset; i++) {
       console.log("simulating offset");
@@ -115,6 +117,9 @@ const Grid = ({ data, hidden, selectedCells, onSelection, simulationOffset }) =>
     if (e.mouseY > height || e.mouseX > width || e.mouseY < 0 || e.mouseX < 0) return;
     const cell = Math.floor(e.mouseY / h) * cols + Math.floor(e.mouseX / w);
     if (compoundData[cell] !== death) {
+      if (compoundData[cell] === futurePurchase) {
+        onClearCell(cell);
+      }
       return;
     }
     if (simulationOffset) {

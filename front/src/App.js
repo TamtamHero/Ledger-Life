@@ -15,7 +15,10 @@ function App() {
   const [simulationOffset, setSimulationOffset] = useState(0);
   const [ownerGrid, setOwnerGrid] = useState([]);
   const [selectedCells, setSelectedCells] = useState([]);
-
+  const onClearCell = useCallback(
+    (cell) => setSelectedCells(selectedCells.filter((c) => cell !== c)),
+    [selectedCells],
+  );
   const updateData = useCallback(() => {
     return new Promise(async (resolve) => {
       let data = await ledgerLife.getGrid();
@@ -70,6 +73,7 @@ function App() {
           selectedCells={selectedCells}
           simulationOffset={simulationOffset}
           onSelection={(cellIndex) => setSelectedCells([...selectedCells, cellIndex])}
+          onClearCell={onClearCell}
         ></Grid>
         <Simulation
           onSimulateBack={onSimulateBack}
@@ -78,7 +82,7 @@ function App() {
         />
         <DebugBar>{JSON.stringify({ selectedCells })}</DebugBar>
       </div>
-      <SidebarRight />
+      <SidebarRight ownerGrid={ownerGrid} />
     </div>
   );
 }
