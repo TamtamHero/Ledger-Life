@@ -131,7 +131,12 @@ function connect() {
           if (action === "TICK") golTick();
           else if (action === "SET_CELL") {
             console.log("handling this from ws")
-            cells[cell] = team;
+            if (cells[cell] === 0){
+              cells[cell] = team;
+            }
+            else{
+              console.log("Error: the cell is already owned");
+            }
           }
         }catch(e){}
       }
