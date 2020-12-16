@@ -13,7 +13,6 @@ const ProgressBars = ({ onDone, nonce }) => {
 
   return (
     <div key={nonce} className="progressBarWrapper">
-      <h1>{"Next update"}</h1>
       <div className="bar">
         <div className={className}/>
       </div>

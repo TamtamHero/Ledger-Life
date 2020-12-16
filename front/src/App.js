@@ -16,6 +16,7 @@ function App() {
   const [nonce, setNonce] = useState(0);
   const onDone = useCallback(() => setNonce(nonce + 1), [nonce]);
   const [ownerGrid, setOwnerGrid] = useState([]);
+  const [players, setPlayers] = useState([]);
   const [selectedCells, setSelectedCells] = useState([]);
   const onClearCell = useCallback(
     (cell) => setSelectedCells(selectedCells.filter((c) => cell !== c)),
@@ -25,10 +26,9 @@ function App() {
     return new Promise(async (resolve) => {
       let data = await ledgerLife.getGrid();
       let players = await ledgerLife.getPlayers();
-      console.log(data);
-      console.log(data[0].toString());
-      console.log(players);
+      debugger;
       setOwnerGrid(data);
+      setPlayers(players);
       resolve();
     });
   }, []);
@@ -90,7 +90,7 @@ function App() {
           life
         </button>
       </div>
-      <SidebarRight ownerGrid={ownerGrid} />
+      <SidebarRight players={players} />
     </div>
     </>
   );

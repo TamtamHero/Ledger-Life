@@ -76,7 +76,7 @@ const Grid = ({ data, hidden, selectedCells, onSelection, onClearCell, simulatio
   const getColor = useCallback(
     (team) => {
       if (team in colorMap) return colorMap[team];
-      const nextColor = colors.pop();
+      const nextColor = colors.pop() || "#ff0000";
       setColorMap({ ...colorMap, [team]: nextColor });
       return nextColor;
     },
