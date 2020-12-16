@@ -97,9 +97,10 @@ class LedgerLife {
     let instance = await this.contracts.LedgerLife.deployed();
     let accounts = await this.web3.eth.getAccounts();
     console.log(`Buy ${cellCount} cells at index ${cells} as player ${playerID}`);
-    return await instance.buyCells(serializedCells, cellCount, playerID, {
+    await instance.buyCells(serializedCells, cellCount, playerID, {
       from: accounts[0],
     });
+    this.playerID = playerID;
   }
 
   async life() {
