@@ -51,17 +51,15 @@ contract LedgerLife {
     // internal function used to add new cells created via reproduction
     function _add_cell(
         uint8[GRID_SIZE] memory m_grid,
-        uint8 x,
-        uint8 y,
+        uint16 index,
         uint8 playerID
     ) private {
-        require(x < GRID_WIDTH);
-        require(y < GRID_HEIGHT);
+        require(index < GRID_SIZE);
         require(playerID != FREE);
         // if the player has less than 1 cell, there is no way he'd get a new cell by reproduction
         require(players[playerID].cellCount > 0);
         players[playerID].cellCount++;
-        m_grid[y * GRID_WIDTH + x] = playerID;
+        m_grid[index] = playerID;
     }
 
     function _remove_cell(
@@ -195,26 +193,25 @@ contract LedgerLife {
     }
 
     function life() public {
-        uint8[GRID_SIZE] memory m_grid = grid;
-        for (uint16 index = 0; index < m_grid.length; index++) {
+        uint8[GRID_SIZE] memory m_grid_old = grid;
+        uint8[GRID_SIZE] memory m_grid_new;
+        for (uint16 index = 0; index < m_grid_old.length; index++) {
             uint8 x = uint8(index % 32);
             uint8 y = uint8(index / 32);
-            uint8 neighboursCount = count_neighbours(m_grid, x, y);
-            if (is_owned(m_grid[index]) != 0) {
-                if (neighboursCount < 2 || neighboursCount > 3) {
-                    _remove_cell(m_grid, x, y);
-                }
-            } else {
-                if (neighboursCount == 3) {
-                    uint8 newCellOwner = get_winner_neighbour(
-                        m_grid,
-                        int8(x),
-                        int8(y)
-                    );
-                    _add_cell(m_grid, x, y, newCellOwner);
-                }
+            uint8 neighboursCount = count_neighbours(m_grid_old, x, y);
+            if (neighboursCount == 3 && m_grid_old[index] == FREE ) {
+                uint8 newCellOwner = get_winner_neighbour(
+                    m_grid_old,
+                    int8(x),
+                    int8(y)
+                );
+                _add_cell(m_grid_new, index, newCellOwner);
+            }
+            else if (neighboursCount >= 2 && neighboursCount <= 3) {
+                _add_cell(m_grid_new, index, m_grid_old[index]);
             }
         }
+        grid = m_grid_new;
     }
 
     function getGrid() public view returns (uint8[GRID_SIZE] memory) {

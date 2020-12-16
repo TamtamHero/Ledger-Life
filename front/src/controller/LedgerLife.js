@@ -63,14 +63,9 @@ class LedgerLife {
       if (cell < 0 || cell >= 32 * 32) {
         throw new Error(`cell index ${cell} is too high`);
       }
-      console.log(cell);
       serialized = serialized.mul(new Web3.utils.BN(2 ** 12));
-      console.log(serialized.toString(2));
       serialized = serialized.add(new Web3.utils.BN(cell));
-      console.log(serialized.toString(2));
     });
-    console.log(serialized.toString(2));
-    console.log(serialized.toString(16));
     return "0x" + serialized.toString(16);
   }
 
