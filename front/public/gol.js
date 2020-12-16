@@ -43,9 +43,9 @@ function getNewCellState(cell) {
       if(aliveByTeam[key] >= 2) return key;
     }
   } //it was dead, bring to live
-  if (aliveNeighbors.length >= 3) return 0; //too crowded
-  if (aliveNeighbors.length >= 2) return team; //stay alive
-  return 0; //too lonely
+  if (aliveNeighbors.length >= 4) return 0;     //too crowded, we kill you
+  if (aliveNeighbors.length >= 2) return team;  //stay alive
+  return 0; //too lonely, suicide
 }
 
 function golTick() {
