@@ -1,0 +1,18 @@
+<html>
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.js"></script>
+  <script src="./gol.js"></script>
+</head>
+
+<body>
+  <input name="ws" value="ws://localhost:3002" />
+  <button id="status" onClick="connect()">Connect</button>
+  <button onClick="tick()">Tick</button>
+  <select onChange="changeTeam(this)">
+    <option value="0">Team 1</option>
+    <option value="1">Team 2</option>
+    <option value="2">Team 3</option>
+    <option value="3">Team 4</option>
+  </select>
+</body>
+</html>

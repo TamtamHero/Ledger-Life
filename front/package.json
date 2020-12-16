@@ -1,0 +1,17 @@
+{
+  "name": "Ledger-Life",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:TamtamHero/Ledger-Life.git",
+  "author": "Jxan",
+  "license": "MIT",
+  "scripts": {
+    "prettier": "prettier --write \"*.{js,json}\""
+  },
+  "dependencies": {
+    "prettier": "^2.2.1",
+    "express": "^4.17.1",
+    "path": "^0.12.7",
+    "ws": "^7.4.1"
+  }
+}
