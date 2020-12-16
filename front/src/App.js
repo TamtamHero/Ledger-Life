@@ -26,7 +26,6 @@ function App() {
     return new Promise(async (resolve) => {
       let data = await ledgerLife.getGrid();
       let players = await ledgerLife.getPlayers();
-      debugger;
       setOwnerGrid(data);
       setPlayers(players);
       resolve();

@@ -50,16 +50,11 @@ class LedgerLife {
 
   async getGrid() {
     let grid = await this.contractsInstances.LedgerLife.getGrid.call();
-    return grid.map((playerID) => parseInt(playerID.toString()));
+    return grid.map(playerID => parseInt(playerID.toString()));
   }
 
   async getPlayers() {
-    let players = await this.contractsInstances.LedgerLife.getPlayers.call();
-    players = players.reduce((acc, { addr, cellCount }) => {
-      acc[addr] = (acc[addr] || 0) + parseInt(cellCount);
-      return acc;
-    }, {});
-    return players;
+    return await this.contractsInstances.LedgerLife.getPlayers.call();
   }
 
   _serializeCellsArray(cellsArray) {
@@ -81,8 +76,8 @@ class LedgerLife {
 
   async _getPlayerID(playerAddress) {
     let players = await this.getPlayers();
-    const alreadyExistingPlayer = players.find((player) => player[0] === playerAddress);
-    if (alreadyExistingPlayer) {
+    const alreadyExistingPlayer = players.find(player => player[0] === playerAddress);
+    if(alreadyExistingPlayer){
       return alreadyExistingPlayer;
     }
     for (const [index, player] of players.entries()) {
@@ -90,7 +85,7 @@ class LedgerLife {
         return index;
       }
     }
-    throw new Error("No player slot available");
+    throw new Error("No player slot available")
   }
 
   async buyCells(cells) {
