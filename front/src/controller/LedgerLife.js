@@ -10,6 +10,7 @@ class LedgerLife {
     this.web3 = null;
     this.contracts = {};
     this.contractsInstances = {};
+    this.playerID = null;
   }
 
   async connect() {
@@ -61,40 +62,40 @@ class LedgerLife {
       if (cell < 0 || cell >= 32 * 32) {
         throw new Error(`cell index ${cell} is too high`);
       }
-      console.log(serialized.toString(2));
       console.log(cell);
+      serialized = serialized.mul(new Web3.utils.BN(2 ** 12));
+      console.log(serialized.toString(2));
       serialized = serialized.add(new Web3.utils.BN(cell));
       console.log(serialized.toString(2));
-      serialized = serialized.mul(new Web3.utils.BN(2 ** 12));
     });
-    serialized = serialized.mul(new Web3.utils.BN(2 ** 4));
-    serialized = serialized.add(new Web3.utils.BN(cellsArray.length));
     console.log(serialized.toString(2));
     console.log(serialized.toString(16));
     return "0x" + serialized.toString(16);
   }
 
   async _getFreeID() {
-    let instance = await this.contracts.LedgerLife.deployed();
-    let accounts = await this.web3.eth.getAccounts();
     let players = await this.getPlayers();
-    players.forEach((player, index) => {
-      if (player === "0x0000000000000000000000000000000000000000") {
+    for (const [index, player] of players.entries()) {
+      if (index !== 0 && player[0] === "0x0000000000000000000000000000000000000000") {
         return index;
       }
-    });
+    }
+    throw new Error("No player slot available")
   }
 
   async buyCells(cells) {
     let playerID = this.playerID;
-    if (playerID === 0) {
-      playerID = this._getFreeID();
+    if (playerID === null) {
+      playerID = await this._getFreeID();
     }
+    console.log(`playerID: ${playerID}`);
     let serializedCells = this._serializeCellsArray(cells);
     console.log(serializedCells);
+    let cellCount = cells.length;
     let instance = await this.contracts.LedgerLife.deployed();
     let accounts = await this.web3.eth.getAccounts();
-    return await instance.buyCells(serializedCells, {
+    console.log(`Buy ${cellCount} cells at index ${cells} as player ${playerID}`);
+    return await instance.buyCells(serializedCells, cellCount, playerID, {
       from: accounts[0],
     });
   }

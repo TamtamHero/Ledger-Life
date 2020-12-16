@@ -24,7 +24,10 @@ function App() {
   const updateData = useCallback(() => {
     return new Promise(async (resolve) => {
       let data = await ledgerLife.getGrid();
+      let players = await ledgerLife.getPlayers();
       console.log(data);
+      console.log(data[0].toString());
+      console.log(players);
       setOwnerGrid(data);
       resolve();
     });

@@ -1,17 +1,18 @@
 pragma solidity ^0.5.0;
+pragma experimental ABIEncoderV2;
 
 contract LedgerLife {
     uint8 constant FREE = 0;
     uint8 constant MAX_BUY_COUNT = 20;
     uint8 constant GRID_WIDTH = 32;
     uint8 constant GRID_HEIGHT = 32;
-    uint8 constant GRID_SIZE = GRID_WIDTH * GRID_HEIGHT;
+    uint16 constant GRID_SIZE = 1024;
 
     struct Player {
         address addr;
         uint16 cellCount;
     }
-    Player[255] public players;
+    Player[256] public players;
 
     uint8[GRID_SIZE] public grid;
 
@@ -24,15 +25,20 @@ contract LedgerLife {
         // max 20 cells can be bought in a single call
         require(cellCount > 0 && cellCount <= MAX_BUY_COUNT);
 
-        // check that the playerID matches the caller address
-        require(players[playerID].addr == msg.sender);
+        if(players[playerID].addr == address(0)){
+            players[playerID].addr = msg.sender;
+        }
+        else{
+            // check that the playerID matches the caller address
+            require(players[playerID].addr == msg.sender);
+        }
 
         // assign each cell to the player's ID
         for (uint8 index = 0; index < cellCount; index++) {
             uint16 cell_index = (uint16)(cells & 0x0FFF);
             cells = cells >> 12;
             // check that the cell is contained in the grid
-            require(cell_index >= 0 && cell_index < (GRID_SIZE));
+            require(cell_index >= 0 && cell_index < GRID_SIZE);
             // check that the cell is not yet owned
             require(grid[cell_index] == FREE);
             grid[cell_index] = playerID;
@@ -215,11 +221,7 @@ contract LedgerLife {
         return grid;
     }
 
-    function getPlayers() public view returns (address[255] memory) {
-        address[255] memory playersList;
-        for (uint8 i = 0; i < players.length; i++) {
-            playersList[i] = players[i].addr;
-        }
-        return playersList;
+    function getPlayers() public view returns (Player[256] memory) {
+        return players;
     }
 }
