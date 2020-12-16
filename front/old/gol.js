@@ -116,6 +116,7 @@ function play(){
 function pause(){
   if(!interval) return;
   clearInterval(interval);
+  interval = null;
 }
 
 function changeTeam(e) {
