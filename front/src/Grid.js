@@ -13,7 +13,7 @@ const Grid = ({ data, hidden, selectedCells, onSelection, onClearCell, simulatio
   const height = 640;
   const rows = 32;
   const cols = 32;
-  const death = "0x0000000000000000000000000000000000000000";
+  const death = 0;
   const futurePurchase = "futurePurchase";
 
   const [colorMap, setColorMap] = useState({
