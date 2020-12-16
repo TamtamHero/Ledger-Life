@@ -1,8 +1,6 @@
 import React, { useMemo, useCallback, useState } from "react";
 import Sketch from "react-p5";
 
-const colors = ["#f9ed69", [255, 0, 0], [0, 255, 0], [0, 0, 255]];
-
 const Grid = ({ data, hidden, selectedCells, onSelection, onClearCell, simulationOffset }) => {
   const width = 640;
   const height = 640;
@@ -71,7 +69,7 @@ const Grid = ({ data, hidden, selectedCells, onSelection, onClearCell, simulatio
   const getColor = useCallback(
     (team) => {
       if (team in colorMap) return colorMap[team];
-      const nextColor = colors.pop() || "#ff0000";
+      const nextColor = "#"+Math.floor(Math.random()*16777215).toString(16);
       setColorMap({ ...colorMap, [team]: nextColor });
       return nextColor;
     },
