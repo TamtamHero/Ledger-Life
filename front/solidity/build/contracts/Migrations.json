@@ -57,14 +57,24 @@
   "ast": {
     "absolutePath": "/Users/user1/Desktop/Ledger-Life/front/solidity/contracts/Migrations.sol",
     "exportedSymbols": {
-      "Migrations": [604]
+      "Migrations": [
+        604
+      ]
     },
     "id": 605,
     "nodeType": "SourceUnit",
     "nodes": [
       {
         "id": 573,
-        "literals": ["solidity", ">=", "0.4", ".22", "<", "0.8", ".0"],
+        "literals": [
+          "solidity",
+          ">=",
+          "0.4",
+          ".22",
+          "<",
+          "0.8",
+          ".0"
+        ],
         "nodeType": "PragmaDirective",
         "src": "32:32:2"
       },
@@ -75,7 +85,9 @@
         "documentation": null,
         "fullyImplemented": true,
         "id": 604,
-        "linearizedBaseContracts": [604],
+        "linearizedBaseContracts": [
+          604
+        ],
         "name": "Migrations",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -264,7 +276,10 @@
                       "id": 581,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [622, 623],
+                      "overloadedDeclarations": [
+                        622,
+                        623
+                      ],
                       "referencedDeclaration": 623,
                       "src": "196:7:2",
                       "typeDescriptions": {
@@ -446,14 +461,24 @@
   "legacyAST": {
     "absolutePath": "/Users/user1/Desktop/Ledger-Life/front/solidity/contracts/Migrations.sol",
     "exportedSymbols": {
-      "Migrations": [604]
+      "Migrations": [
+        604
+      ]
     },
     "id": 605,
     "nodeType": "SourceUnit",
     "nodes": [
       {
         "id": 573,
-        "literals": ["solidity", ">=", "0.4", ".22", "<", "0.8", ".0"],
+        "literals": [
+          "solidity",
+          ">=",
+          "0.4",
+          ".22",
+          "<",
+          "0.8",
+          ".0"
+        ],
         "nodeType": "PragmaDirective",
         "src": "32:32:2"
       },
@@ -464,7 +489,9 @@
         "documentation": null,
         "fullyImplemented": true,
         "id": 604,
-        "linearizedBaseContracts": [604],
+        "linearizedBaseContracts": [
+          604
+        ],
         "name": "Migrations",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -653,7 +680,10 @@
                       "id": 581,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [622, 623],
+                      "overloadedDeclarations": [
+                        622,
+                        623
+                      ],
                       "referencedDeclaration": 623,
                       "src": "196:7:2",
                       "typeDescriptions": {
@@ -840,12 +870,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x7090B67155A5EFaBdD30EB68b55A6f6b3a86f571",
-      "transactionHash": "0x6c61b17c3dcbe81b3f27c1b2e01e4634592e0402c057cd8674366747b7d586d9"
+      "address": "0x962e9Cfc93a1D7DB34251b12b733E5AA9eDEBe9e",
+      "transactionHash": "0xacb7af5db201f60376e8feaa6107effe165d52d95355c02232430c7ed21c44a3"
     }
   },
   "schemaVersion": "3.3.2",
-  "updatedAt": "2020-12-17T08:45:51.479Z",
+  "updatedAt": "2020-12-17T09:35:39.891Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}

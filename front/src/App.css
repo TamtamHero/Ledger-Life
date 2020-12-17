@@ -21,11 +21,11 @@ h1{
   font-weight: bolder;
 }
 .cell {
-  height:42px;
-  width:42px;
-  border-radius: 15px;
-  animation: morphing 5s infinite;
+  height:70px;
+  width:70px;
+  animation: morphing 20s infinite;
   margin: 3px;
+  border-radius: 30% 70% 70% 30%/30% 30% 70% 70%
 }
 
 .cell.empty:hover {
@@ -47,7 +47,7 @@ h1{
 
 .grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr ;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 }
 .button {
   font-weight: bold;
