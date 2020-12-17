@@ -14,6 +14,7 @@ const ledgerLife = new LedgerLife();
 function App() {
   const [isConnected, setConnected] = useState(false);
   const [simulationOffset, setSimulationOffset] = useState(0);
+  const [activeTab, setActiveTab] = useState(0);
   const [nonce, setNonce] = useState(0);
   const [canUpdate, setCanUpdate] = useState(false);
   const onDone = useCallback(() => {
@@ -84,52 +85,88 @@ function App() {
       </div>
       <div className="AppWrapper">
         <h1 className="header">{"Ledger Life"}</h1>
-        <div className="App">
-          <ProgressBars nonce={nonce} onDone={onDone} />
-          <div style={{ display: "flex", flexDirection: "row" }}>
-            <SidebarLeft />
-            <div className="Content">
-              <Grid
-                hidden={!isConnected}
-                data={ownerGrid}
-                selectedCells={selectedCells}
-                simulationOffset={simulationOffset}
-                onSelection={(cellIndex) => setSelectedCells([...selectedCells, cellIndex])}
-                onClearCell={onClearCell}
-              ></Grid>
+        <div className="tabs">
+          <div onClick={() => setActiveTab(0)} className={`tab ${activeTab === 0 ? "active" : ""}`}>
+            {"PLAY"}
+          </div>
+          <div onClick={() => setActiveTab(1)} className={`tab ${activeTab === 1 ? "active" : ""}`}>
+            {"BUY"}
+          </div>
+        </div>
+        {activeTab === 0 ? (
+          <div className="App">
+            <ProgressBars nonce={nonce} onDone={onDone} />
+            <div style={{ display: "flex", flexDirection: "row" }}>
+              <SidebarLeft />
+              <div className="Content">
+                <Grid
+                  hidden={!isConnected}
+                  data={ownerGrid}
+                  selectedCells={selectedCells}
+                  simulationOffset={simulationOffset}
+                  onSelection={(cellIndex) => setSelectedCells([...selectedCells, cellIndex])}
+                  onClearCell={onClearCell}
+                ></Grid>
 
-              <DebugBar>{JSON.stringify({ selectedCells })}</DebugBar>
+                <DebugBar>{JSON.stringify({ selectedCells })}</DebugBar>
+              </div>
+              <SidebarRight
+                players={players}
+                canUpdate={canUpdate}
+                selectedCells={selectedCells}
+                onLife={onLife}
+                onReset={onReset}
+                onBuy={onBuy}
+              />
             </div>
-            <SidebarRight
-              players={players}
-              canUpdate={canUpdate}
-              selectedCells={selectedCells}
-              onLife={onLife}
-              onReset={onReset}
-              onBuy={onBuy}
-            />
+            <div className="Content">
+              <Simulation
+                onSimulateBack={onSimulateBack}
+                onSimulateForward={onSimulateForward}
+                simulationOffset={simulationOffset}
+              />
+            </div>
           </div>
-          <div className="Content">
-            <Simulation
-              onSimulateBack={onSimulateBack}
-              onSimulateForward={onSimulateForward}
-              simulationOffset={simulationOffset}
-            />
-          </div>
-        </div>
-        <div className="leaderboard">
-          <h1>{"leaderboard"}</h1>
-          <div>
-            {Object.keys(_players).map((id) =>
-              id === "0x0000000000000000000000000000000000000000" ? null : (
-                <div key={id} className="addressWrapper">
-                  <span className="cappedAddress">{id}</span>
-                  <span className="score">{_players[id]}</span>
+        ) : (
+          <div className="App">
+            <div>
+              <div className="cardholder">
+                <div className="card">
+                  <span>{"EARN SHT"}</span>
+                  <div className={"button"}>
+                    <span>{"BUY"}</span>
+                  </div>
                 </div>
-              ),
-            )}
+                <div className="card">
+                  <span>{"EARN SHT"}</span>
+                  <div className={"button"}>
+                    <span>{"BUY"}</span>
+                  </div>
+                </div>
+              </div>
+              <div className="lorem">
+                <span className="cappedAddress dark">{"lorem ipsum dolor sit amet"}</span>
+                <span className="cappedAddress dark">{"lorem ipsum dolor sit amet"}</span>
+                <span className="cappedAddress dark">{"lorem ipsum dolor sit amet"}</span>
+              </div>
+            </div>
           </div>
-        </div>
+        )}
+        {activeTab === 0 ? (
+          <div className="leaderboard">
+            <h1>{"leaderboard"}</h1>
+            <div>
+              {Object.keys(_players).map((id) =>
+                id === "0x0000000000000000000000000000000000000000" ? null : (
+                  <div key={id} className="addressWrapper">
+                    <span className="cappedAddress">{id}</span>
+                    <span className="score">{_players[id]}</span>
+                  </div>
+                ),
+              )}
+            </div>
+          </div>
+        ) : null}
       </div>
     </div>
   );
