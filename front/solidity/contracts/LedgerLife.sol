@@ -5,9 +5,9 @@ contract LedgerLife {
     uint8 constant SIZE256 = 32;
     uint8 constant FREE = 0;
     uint8 constant MAX_BUY_COUNT = 20;
-    uint8 constant GRID_WIDTH = 32;
-    uint8 constant GRID_HEIGHT = 32;
-    uint16 constant GRID_SIZE = 1024;
+    uint8 constant GRID_WIDTH = 15;
+    uint8 constant GRID_HEIGHT = 15;
+    uint16 constant GRID_SIZE = 225;
     uint16 constant STORAGE_SIZE = 32; // GRID_SIZE/SIZE256 + 1
 
     struct Player {
