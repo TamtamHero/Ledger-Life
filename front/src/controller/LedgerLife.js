@@ -88,7 +88,7 @@ class LedgerLife {
 
   async _getPlayerID(playerAddress) {
     let players = await this.getPlayers();
-    const alreadyExistingPlayer = players.find((player) => player[0] === playerAddress);
+    const alreadyExistingPlayer = players.findIndex((player) => player[0] === playerAddress);
     if (alreadyExistingPlayer) {
       return alreadyExistingPlayer;
     }
@@ -101,16 +101,16 @@ class LedgerLife {
   }
 
   async buyCells(cells) {
+    let accounts = await this.web3.eth.getAccounts();
     let playerID = this.playerID;
     if (playerID === null) {
-      playerID = await this._getPlayerID();
+      playerID = await this._getPlayerID(accounts[0]);
     }
     console.log(`playerID: ${playerID}`);
     let serializedCells = this._serializeCellsArray(cells);
     console.log(serializedCells);
     let cellCount = cells.length;
     let instance = await this.contracts.LedgerLife.deployed();
-    let accounts = await this.web3.eth.getAccounts();
     console.log(`Buy ${cellCount} cells at index ${cells} as player ${playerID}`);
     await instance.buyCells(serializedCells, cellCount, playerID, {
       from: accounts[0],
