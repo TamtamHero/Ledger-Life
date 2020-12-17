@@ -101,13 +101,16 @@ contract LedgerLife {
     function _add_cell(
         uint8[GRID_SIZE] memory m_grid,
         uint16 index,
-        uint8 playerID
+        uint8 playerID,
+        bool is_creation
     ) private {
         require(index < GRID_SIZE);
         require(playerID != FREE);
         // if the player has less than 1 cell, there is no way he'd get a new cell by reproduction
         require(players[playerID].cellCount > 0);
-        players[playerID].cellCount++;
+        if(is_creation){
+            players[playerID].cellCount++;
+        }
         m_grid[index] = playerID;
     }
 
@@ -251,10 +254,14 @@ contract LedgerLife {
                     m_grid_old,
                     x, y
                 );
-                _add_cell(m_grid_new, index, newCellOwner);
+                _add_cell(m_grid_new, index, newCellOwner, true);
+                continue;
             }
             else if ( m_grid_old[index] != FREE && (neighboursCount >= 2 && neighboursCount <= 3)) {
-                _add_cell(m_grid_new, index, m_grid_old[index]);
+                _add_cell(m_grid_new, index, m_grid_old[index], false);
+            }
+            else if (m_grid_old[index] != FREE){
+                players[m_grid_old[index]].cellCount -=1;
             }
         }
         _pack_grid(m_grid_new);
