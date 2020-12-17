@@ -1,6 +1,5 @@
 body{
   background-color: #65d6ce;
-  padding: 20px;
 }
 
 h1 {
@@ -24,12 +23,26 @@ h1{
 .cell {
   height:42px;
   width:42px;
-  border:2px solid #65d6ce;
   border-radius: 15px;
+  animation: morphing 5s infinite;
+  margin: 3px;
 }
 
 .cell.empty:hover {
   background-color: #7b5ab9!important;
+}
+
+.wrapper{
+  position:relative;
+}
+
+.wave {
+  position:absolute;
+  width: 100%;
+  height: 100%;
+  top:0;
+  left:0;
+  z-index: 1;
 }
 
 .grid {
@@ -60,10 +73,20 @@ h1{
 }
 
 .App {
+  z-index: 20;
   display: flex;
   flex-direction: row;
   justify-content:center;
+  position:relative;
 }
+
+.AppWrapper{
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+    position:relative;
+  }
 
 .sidebar {
   padding: 0 20px;
@@ -126,4 +149,60 @@ h1{
 @keyframes w100 {
   from { width: 0%; }
   to { width: 100%; }
+}
+@-moz-keyframes morphing {
+  0% {
+    border-radius: 30% 70% 70% 30%/30% 30% 70% 70%;
+  }
+  25% {
+    border-radius: 58% 42% 75% 25%/76% 46% 54% 24%;
+  }
+  50% {
+    border-radius: 50% 50% 33% 67%/55% 27% 73% 45%;
+  }
+  75% {
+    border-radius: 33% 67% 58% 42%/63% 68% 32% 37%;
+  }
+}
+@-webkit-keyframes morphing {
+  0% {
+    border-radius: 30% 70% 70% 30%/30% 30% 70% 70%;
+  }
+  25% {
+    border-radius: 58% 42% 75% 25%/76% 46% 54% 24%;
+  }
+  50% {
+    border-radius: 50% 50% 33% 67%/55% 27% 73% 45%;
+  }
+  75% {
+    border-radius: 33% 67% 58% 42%/63% 68% 32% 37%;
+  }
+}
+@-o-keyframes morphing {
+  0% {
+    border-radius: 30% 70% 70% 30%/30% 30% 70% 70%;
+  }
+  25% {
+    border-radius: 58% 42% 75% 25%/76% 46% 54% 24%;
+  }
+  50% {
+    border-radius: 50% 50% 33% 67%/55% 27% 73% 45%;
+  }
+  75% {
+    border-radius: 33% 67% 58% 42%/63% 68% 32% 37%;
+  }
+}
+@keyframes morphing {
+  0% {
+    border-radius: 30% 70% 70% 30%/30% 30% 70% 70%;
+  }
+  25% {
+    border-radius: 58% 42% 75% 25%/76% 46% 54% 24%;
+  }
+  50% {
+    border-radius: 50% 50% 33% 67%/55% 27% 73% 45%;
+  }
+  75% {
+    border-radius: 33% 67% 58% 42%/63% 68% 32% 37%;
+  }
 }
