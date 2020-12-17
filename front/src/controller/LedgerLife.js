@@ -53,17 +53,17 @@ class LedgerLife {
 
   async getGrid() {
     let grid = await this.contractsInstances.LedgerLife.getGrid.call();
-    grid = grid.map(row => row.toString());
+    grid = grid.map((row) => row.toString());
     console.log(grid);
-    let grid_unpacked = []
-    for (let i = 0; i < GRID_WIDTH*GRID_HEIGHT; i++) {
-      let segment_num = parseInt(i/SIZE256);
-      let element_num = i%SIZE256;
+    let grid_unpacked = [];
+    for (let i = 0; i < GRID_WIDTH * GRID_HEIGHT; i++) {
+      let segment_num = parseInt(i / SIZE256);
+      let element_num = i % SIZE256;
       let segment = new Web3.utils.BN(grid[segment_num]);
-      let bits_to_shift = (SIZE256-element_num-1) * 8;
+      let bits_to_shift = (SIZE256 - element_num - 1) * 8;
       // console.log(`seg: ${segment_num} e: ${element_num} shift: ${bits_to_shift}`);
       segment = segment.shrn(bits_to_shift);
-      segment = segment.and(new Web3.utils.BN(0xFF));
+      segment = segment.and(new Web3.utils.BN(0xff));
       grid_unpacked.push(segment.toNumber());
       // console.log(segment.toNumber());
     }

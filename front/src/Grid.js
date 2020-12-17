@@ -87,9 +87,13 @@ const Grid = ({ data, hidden, selectedCells, onSelection, onClearCell, simulatio
     }
     onSelection(cell);
   };
-  return <div className={"grid"}>
-    {compoundData.map((cell, index)=><Cell key={index} color={getColor(cell)} onClick={()=>cellClicked(index)}/>)}
-  </div>
+  return (
+    <div className={"grid"}>
+      {compoundData.map((cell, index) => (
+        <Cell key={index} color={getColor(cell)} onClick={() => cellClicked(index)} />
+      ))}
+    </div>
+  );
 };
 
 export default Grid;

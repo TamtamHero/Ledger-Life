@@ -1,5 +1,5 @@
-import React from "react"
+import React from "react";
 
-export default ({color, onClick}) => {
-  return <div className={"cell"} onClick={onClick} style={{backgroundColor:color}}/>
-}
+export default ({ color, onClick }) => {
+  return <div className={"cell"} onClick={onClick} style={{ backgroundColor: color }} />;
+};

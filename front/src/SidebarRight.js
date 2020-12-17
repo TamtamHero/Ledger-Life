@@ -6,8 +6,11 @@ const SidebarRight = ({ players, selectedCells, onBuy, onLife, onReset }) => {
     return acc;
   }, {});
   return (
-    <div className="sidebar" onClick={() => (selectedCells.length ? onBuy : undefined)}>
-      <div className={`${selectedCells.length ? "" : "disabled"} button`}>
+    <div className="sidebar">
+      <div
+        onClick={() => (selectedCells.length ? onBuy() : undefined)}
+        className={`${selectedCells.length ? "" : "disabled"} button`}
+      >
         <span>{selectedCells.length ? "BUY" : "SELECT CELLS"}</span>
       </div>
       <div className={"button mtop"} onClick={onLife}>
