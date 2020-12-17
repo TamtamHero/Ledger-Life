@@ -63,7 +63,7 @@ function App() {
 
   return (
     <div className="wrapper">
-      <div className="wave"><AnimatedWave height={1000} color="#57b7b1"/></div>
+      <div className="wave"><AnimatedWave height={1000} color="#95e1d3"/></div>
       <div className="AppWrapper">
         <h1 className="header">{"much wow"}</h1>
         <div className="App">
