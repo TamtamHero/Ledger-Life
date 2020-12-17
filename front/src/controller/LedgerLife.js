@@ -61,11 +61,11 @@ class LedgerLife {
       let element_num = i%SIZE256;
       let segment = new Web3.utils.BN(grid[segment_num]);
       let bits_to_shift = (SIZE256-element_num-1) * 8;
-      console.log(`seg: ${segment_num} e: ${element_num} shift: ${bits_to_shift}`);
+      // console.log(`seg: ${segment_num} e: ${element_num} shift: ${bits_to_shift}`);
       segment = segment.shrn(bits_to_shift);
       segment = segment.and(new Web3.utils.BN(0xFF));
       grid_unpacked.push(segment.toNumber());
-      console.log(segment.toNumber());
+      // console.log(segment.toNumber());
     }
     return grid_unpacked;
   }
