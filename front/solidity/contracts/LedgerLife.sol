@@ -222,7 +222,7 @@ contract LedgerLife {
 
         uint8 neighboursCount = 0;
 
-        for (uint8 i = 0; i < 8; i+=2) {
+        for (uint8 i = 0; i < neighbours.length; i+=2) {
             if (
                 neighbours[i] >= 0 &&
                 neighbours[i] < int8(GRID_WIDTH) &&
@@ -251,7 +251,7 @@ contract LedgerLife {
                     m_grid_old,
                     x, y
                 );
-                _add_cell(m_grid_new, index, 1);
+                _add_cell(m_grid_new, index, newCellOwner);
             }
             else if ( m_grid_old[index] != FREE && (neighboursCount >= 2 && neighboursCount <= 3)) {
                 _add_cell(m_grid_new, index, m_grid_old[index]);
