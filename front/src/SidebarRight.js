@@ -1,36 +1,24 @@
 import React from "react";
 
-const SidebarRight = ({ players, selectedCells, onBuy, onLife, onReset }) => {
-  let _players = players.reduce((acc, { addr, cellCount }) => {
-    acc[addr] = (acc[addr] || 0) + parseInt(cellCount);
-    return acc;
-  }, {});
+const SidebarRight = ({ canUpdate, players, selectedCells, onBuy, onLife, onReset }) => {
   return (
-    <div className="sidebar">
+    <div className="sidebar right">
       <div
         onClick={() => (selectedCells.length ? onBuy() : undefined)}
         className={`${selectedCells.length ? "" : "disabled"} button`}
       >
-        <span>{selectedCells.length ? "BUY" : "SELECT CELLS"}</span>
+        <span>{selectedCells.length ? "BUY" : "SELECT"}</span>
       </div>
-      <div className={"button mtop"} onClick={onLife}>
-        <span>{"UPDATE"}</span>
+      <div
+        className={`${!canUpdate ? "disabled" : ""} button mtop`}
+        onClick={() => (canUpdate ? onLife() : undefined)}
+      >
+        <span>{`${canUpdate ? "UPDATE" : "..."}`}</span>
       </div>
       <div className={"button mtop"} onClick={onReset}>
         <span>{"RESET"}</span>
       </div>
       <br />
-      <h1>{"leaderboard"}</h1>
-      <div>
-        {Object.keys(_players).map((id) =>
-          id === "0x0000000000000000000000000000000000000000" ? null : (
-            <div key={id} className="addressWrapper">
-              <span className="cappedAddress">{id}</span>
-              <span className="score">{_players[id]}</span>
-            </div>
-          ),
-        )}
-      </div>
     </div>
   );
 };

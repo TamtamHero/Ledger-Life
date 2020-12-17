@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useMemo, useCallback, useState, useEffect } from "react";
 import "./App.css";
 import Grid from "./Grid.js";
 import SidebarLeft from "./SidebarLeft.js";
@@ -15,7 +15,10 @@ function App() {
   const [isConnected, setConnected] = useState(false);
   const [simulationOffset, setSimulationOffset] = useState(0);
   const [nonce, setNonce] = useState(0);
-  const onDone = useCallback(() => setNonce(nonce + 1), [nonce]);
+  const [canUpdate, setCanUpdate] = useState(false);
+  const onDone = useCallback(() => {
+    setCanUpdate(true);
+  }, []);
   const [ownerGrid, setOwnerGrid] = useState([]);
   const [players, setPlayers] = useState([]);
   const [selectedCells, setSelectedCells] = useState([]);
@@ -36,10 +39,14 @@ function App() {
     () => (simulationOffset > 0 ? setSimulationOffset(simulationOffset - 1) : null),
     [simulationOffset],
   );
-  const onLife = useCallback(() => ledgerLife.life().then(() => updateData()), [updateData]);
+  const onLife = useCallback(() => {
+    setCanUpdate(false);
+    setNonce(nonce + 1);
+    ledgerLife.life().then(() => updateData());
+  }, [nonce, updateData]);
   const onReset = useCallback(() => {
-    setSimulationOffset(0)
-    setSelectedCells([])
+    setSimulationOffset(0);
+    setSelectedCells([]);
   }, []);
   const onSimulateForward = useCallback(() => {
     setSimulationOffset(simulationOffset + 1);
@@ -61,38 +68,66 @@ function App() {
     [updateData],
   );
 
+  let _players = useMemo(
+    () =>
+      players.reduce((acc, { addr, cellCount }) => {
+        acc[addr] = (acc[addr] || 0) + parseInt(cellCount);
+        return acc;
+      }, {}),
+    [players],
+  );
   return (
     <div className="wrapper">
-      <div className="wave"><AnimatedWave height={1000} color="#95e1d3"/></div>
+      <div className="wave">
+        <AnimatedWave height={1000} color="#a9cec5" />
+      </div>
       <div className="AppWrapper">
         <h1 className="header">{"Ledger Life"}</h1>
         <div className="App">
-          <SidebarLeft />
-          <div className="Content">
-            <ProgressBars onDone={onDone} nonce={nonce} />
+          <ProgressBars nonce={nonce} onDone={onDone} />
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <SidebarLeft />
+            <div className="Content">
+              <Grid
+                hidden={!isConnected}
+                data={ownerGrid}
+                selectedCells={selectedCells}
+                simulationOffset={simulationOffset}
+                onSelection={(cellIndex) => setSelectedCells([...selectedCells, cellIndex])}
+                onClearCell={onClearCell}
+              ></Grid>
 
-            <Grid
-              hidden={!isConnected}
-              data={ownerGrid}
+              <DebugBar>{JSON.stringify({ selectedCells })}</DebugBar>
+            </div>
+            <SidebarRight
+              players={players}
+              canUpdate={canUpdate}
               selectedCells={selectedCells}
-              simulationOffset={simulationOffset}
-              onSelection={(cellIndex) => setSelectedCells([...selectedCells, cellIndex])}
-              onClearCell={onClearCell}
-            ></Grid>
+              onLife={onLife}
+              onReset={onReset}
+              onBuy={onBuy}
+            />
+          </div>
+          <div className="Content">
             <Simulation
               onSimulateBack={onSimulateBack}
               onSimulateForward={onSimulateForward}
               simulationOffset={simulationOffset}
             />
-            <DebugBar>{JSON.stringify({ selectedCells })}</DebugBar>
           </div>
-          <SidebarRight
-            players={players}
-            selectedCells={selectedCells}
-            onLife={onLife}
-            onReset={onReset}
-            onBuy={onBuy}
-          />
+        </div>
+        <div className="leaderboard">
+          <h1>{"leaderboard"}</h1>
+          <div>
+            {Object.keys(_players).map((id) =>
+              id === "0x0000000000000000000000000000000000000000" ? null : (
+                <div key={id} className="addressWrapper">
+                  <span className="cappedAddress">{id}</span>
+                  <span className="score">{_players[id]}</span>
+                </div>
+              ),
+            )}
+          </div>
         </div>
       </div>
     </div>

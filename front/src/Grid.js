@@ -8,8 +8,8 @@ const Grid = ({ data, hidden, selectedCells, onSelection, onClearCell, simulatio
   const futurePurchase = "futurePurchase";
 
   const [colorMap, setColorMap] = useState({
-    [death]: "#f38181",
-    futurePurchase: "#654062",
+    [death]: "#F2EBBF",
+    futurePurchase: "#F06060",
   });
 
   const getNewCellState = useCallback((data, cell) => {
@@ -90,10 +90,17 @@ const Grid = ({ data, hidden, selectedCells, onSelection, onClearCell, simulatio
   return (
     <div className={"grid"}>
       {compoundData.map((cell, index) => {
-        const color = getColor(cell)
-        return(
-        <Cell style={{animationDelay: `${index%3*0.42}s`}} key={index} empty={colorMap[death] === color} color={color} onClick={() => cellClicked(index)} />
-      )})}
+        const color = getColor(cell);
+        return (
+          <Cell
+            style={{ animationDelay: `${(index % 3) * 0.42}s` }}
+            key={index}
+            empty={colorMap[death] === color}
+            color={color}
+            onClick={() => cellClicked(index)}
+          />
+        );
+      })}
     </div>
   );
 };

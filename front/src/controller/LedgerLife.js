@@ -67,7 +67,7 @@ class LedgerLife {
       grid_unpacked.push(segment.toNumber());
       // console.log(segment.toNumber());
     }
-    console.log(grid_unpacked)
+    console.log(grid_unpacked);
     return grid_unpacked;
   }
 
