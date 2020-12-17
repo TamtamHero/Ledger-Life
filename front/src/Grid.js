@@ -2,8 +2,8 @@ import React, { useMemo, useCallback, useState } from "react";
 import Cell from "./Cell.js";
 
 const Grid = ({ data, hidden, selectedCells, onSelection, onClearCell, simulationOffset }) => {
-  const rows = 15;
-  const cols = 15;
+  const rows = 10;
+  const cols = 10;
   const death = 0;
   const futurePurchase = "futurePurchase";
 
@@ -92,7 +92,7 @@ const Grid = ({ data, hidden, selectedCells, onSelection, onClearCell, simulatio
       {compoundData.map((cell, index) => {
         const color = getColor(cell)
         return(
-        <Cell style={{animationDelay: `${Math.round(Math.random()*10)}s`}} key={index} empty={colorMap[death] === color} color={color} onClick={() => cellClicked(index)} />
+        <Cell style={{animationDelay: `${index}s`}} key={index} empty={colorMap[death] === color} color={color} onClick={() => cellClicked(index)} />
       )})}
     </div>
   );
