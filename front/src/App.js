@@ -36,7 +36,10 @@ function App() {
     [simulationOffset],
   );
   const onLife = useCallback(() => ledgerLife.life().then(() => updateData()), [updateData]);
-  const onReset = useCallback(() => setSelectedCells([]), []);
+  const onReset = useCallback(() => {
+    setSimulationOffset(0)
+    setSelectedCells([])
+  }, []);
   const onSimulateForward = useCallback(() => {
     setSimulationOffset(simulationOffset + 1);
   }, [simulationOffset]);
