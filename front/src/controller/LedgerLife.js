@@ -2,8 +2,8 @@ import Web3 from "web3";
 import TruffleContract from "truffle-contract";
 import LedgerLifeArtifact from "../contracts/LedgerLife.json";
 
-const GRID_WIDTH = 15;
-const GRID_HEIGHT = 15;
+const GRID_WIDTH = 10;
+const GRID_HEIGHT = 10;
 const SIZE256 = 32;
 class LedgerLife {
   constructor() {
@@ -67,6 +67,7 @@ class LedgerLife {
       grid_unpacked.push(segment.toNumber());
       // console.log(segment.toNumber());
     }
+    console.log(grid_unpacked)
     return grid_unpacked;
   }
 

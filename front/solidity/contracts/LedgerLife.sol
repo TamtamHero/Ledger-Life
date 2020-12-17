@@ -5,9 +5,9 @@ contract LedgerLife {
     uint8 constant SIZE256 = 32;
     uint8 constant FREE = 0;
     uint8 constant MAX_BUY_COUNT = 20;
-    uint8 constant GRID_WIDTH = 15;
-    uint8 constant GRID_HEIGHT = 15;
-    uint16 constant GRID_SIZE = 225;
+    uint8 constant GRID_WIDTH = 10;
+    uint8 constant GRID_HEIGHT = 10;
+    uint16 constant GRID_SIZE = 100;
     uint16 constant STORAGE_SIZE = 32; // GRID_SIZE/SIZE256 + 1
 
     struct Player {
@@ -172,7 +172,7 @@ contract LedgerLife {
         uint8 winner = 0;
         uint8 neighbourIndex = 0;
 
-        for (uint8 i = 0; i < neighbours.length; i++) {
+        for (uint8 i = 0; i < 8; i++) {
             if (
                 neighbours[i].x >= 0 &&
                 neighbours[i].x < int8(GRID_WIDTH) &&
@@ -209,29 +209,29 @@ contract LedgerLife {
         int8 x,
         int8 y
     ) private pure returns (uint8) {
-        Coordinate[8] memory neighbours = [
-            Coordinate(x - 1, y - 1),
-            Coordinate(x - 1, y),
-            Coordinate(x - 1, y + 1),
-            Coordinate(x, y - 1),
-            Coordinate(x, y + 1),
-            Coordinate(x + 1, y - 1),
-            Coordinate(x + 1, y),
-            Coordinate(x + 1, y + 1)
+        int8[16] memory neighbours = [
+            x - 1, y - 1,
+            x - 1, y,
+            x - 1, y + 1,
+            x, y - 1,
+            x, y + 1,
+            x + 1, y - 1,
+            x + 1, y,
+            x + 1, y + 1
         ];
 
         uint8 neighboursCount = 0;
 
-        for (uint8 i = 0; i < neighbours.length; i++) {
+        for (uint8 i = 0; i < 8; i+=2) {
             if (
-                neighbours[i].x >= 0 &&
-                neighbours[i].x < int8(GRID_WIDTH) &&
-                neighbours[i].y >= 0 &&
-                neighbours[i].y < int8(GRID_HEIGHT)
+                neighbours[i] >= 0 &&
+                neighbours[i] < int8(GRID_WIDTH) &&
+                neighbours[i+1] >= 0 &&
+                neighbours[i+1] < int8(GRID_HEIGHT)
             ) {
-                uint8 _x = uint8(neighbours[i].x);
-                uint8 _y = uint8(neighbours[i].y);
-                if(m_grid[_x + GRID_WIDTH* _y] != FREE){
+                uint8 _x = uint8(neighbours[i]);
+                uint8 _y = uint8(neighbours[i+1]);
+                if(m_grid[_x + (GRID_WIDTH * _y)] != FREE){
                     neighboursCount++;
                 }
             }
@@ -251,7 +251,7 @@ contract LedgerLife {
                     m_grid_old,
                     x, y
                 );
-                _add_cell(m_grid_new, index, newCellOwner);
+                _add_cell(m_grid_new, index, 1);
             }
             else if ( m_grid_old[index] != FREE && (neighboursCount >= 2 && neighboursCount <= 3)) {
                 _add_cell(m_grid_new, index, m_grid_old[index]);
