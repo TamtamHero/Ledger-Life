@@ -2,6 +2,7 @@ import React from "react";
 import Shape from "./Shape.js";
 
 const SidebarLeft = () => {
+  return null;
   return (
     <div className={"sidebar"}>
       <div>

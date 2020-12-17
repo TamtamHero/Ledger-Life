@@ -5,6 +5,7 @@ import SidebarLeft from "./SidebarLeft.js";
 import SidebarRight from "./SidebarRight.js";
 import DebugBar from "./DebugBar.js";
 import ProgressBars from "./ProgressBars.js";
+import AnimatedWave from "./AnimatedWave.js";
 import Simulation from "./Simulation.js";
 import LedgerLife from "./controller/LedgerLife.js";
 
@@ -61,37 +62,40 @@ function App() {
   );
 
   return (
-    <>
-      <h1 className="header">{"much wow"}</h1>
-      <div className="App">
-        <SidebarLeft />
-        <div className="Content">
-          <ProgressBars onDone={onDone} nonce={nonce} />
+    <div className="wrapper">
+      <div className="wave"><AnimatedWave height={1000} color="#57b7b1"/></div>
+      <div className="AppWrapper">
+        <h1 className="header">{"much wow"}</h1>
+        <div className="App">
+          <SidebarLeft />
+          <div className="Content">
+            <ProgressBars onDone={onDone} nonce={nonce} />
 
-          <Grid
-            hidden={!isConnected}
-            data={ownerGrid}
+            <Grid
+              hidden={!isConnected}
+              data={ownerGrid}
+              selectedCells={selectedCells}
+              simulationOffset={simulationOffset}
+              onSelection={(cellIndex) => setSelectedCells([...selectedCells, cellIndex])}
+              onClearCell={onClearCell}
+            ></Grid>
+            <Simulation
+              onSimulateBack={onSimulateBack}
+              onSimulateForward={onSimulateForward}
+              simulationOffset={simulationOffset}
+            />
+            <DebugBar>{JSON.stringify({ selectedCells })}</DebugBar>
+          </div>
+          <SidebarRight
+            players={players}
             selectedCells={selectedCells}
-            simulationOffset={simulationOffset}
-            onSelection={(cellIndex) => setSelectedCells([...selectedCells, cellIndex])}
-            onClearCell={onClearCell}
-          ></Grid>
-          <Simulation
-            onSimulateBack={onSimulateBack}
-            onSimulateForward={onSimulateForward}
-            simulationOffset={simulationOffset}
+            onLife={onLife}
+            onReset={onReset}
+            onBuy={onBuy}
           />
-          <DebugBar>{JSON.stringify({ selectedCells })}</DebugBar>
         </div>
-        <SidebarRight
-          players={players}
-          selectedCells={selectedCells}
-          onLife={onLife}
-          onReset={onReset}
-          onBuy={onBuy}
-        />
       </div>
-    </>
+    </div>
   );
 }
 
