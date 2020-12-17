@@ -11,7 +11,18 @@ const Grid = ({ data, hidden, selectedCells, onSelection, onClearCell, simulatio
     [death]: "#F2EBBF",
     futurePurchase: "#F06060",
   });
+const randomColor = (() => {
+  const randomInt = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
 
+  return () => {
+    var h = randomInt(0, 360);
+    var s = randomInt(20, 60);
+    var l = randomInt(30, 40);
+    return `hsl(${h},${s}%,${l}%)`;
+  };
+})();
   const getNewCellState = useCallback((data, cell) => {
     const team = data[cell];
     const x = cell % cols;
@@ -67,11 +78,11 @@ const Grid = ({ data, hidden, selectedCells, onSelection, onClearCell, simulatio
   const getColor = useCallback(
     (team) => {
       if (team in colorMap) return colorMap[team];
-      const nextColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
+      const nextColor = randomColor();
       setColorMap({ ...colorMap, [team]: nextColor });
       return nextColor;
     },
-    [colorMap],
+    [colorMap, randomColor],
   );
 
   let cellClicked = (cell) => {

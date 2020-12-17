@@ -17,8 +17,9 @@ function App() {
   const [nonce, setNonce] = useState(0);
   const [canUpdate, setCanUpdate] = useState(false);
   const onDone = useCallback(() => {
+    setNonce(nonce + 1);
     setCanUpdate(true);
-  }, []);
+  }, [nonce]);
   const [ownerGrid, setOwnerGrid] = useState([]);
   const [players, setPlayers] = useState([]);
   const [selectedCells, setSelectedCells] = useState([]);
