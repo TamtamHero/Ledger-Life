@@ -1,9 +1,9 @@
 body{
-  background-color: #65d6ce;
+  background-color: #eaffd0;
 }
 
 h1 {
-  color: #7b5ab9;
+  color: #654062;
 }
 h1.header{
   font-size: 40px;
@@ -17,19 +17,20 @@ h1{
   flex:1;
   text-align:center;
   font-size: 30px;
-  color:#7b5ab9;
+  color:#654062;
   font-weight: bolder;
 }
 .cell {
-  height:70px;
-  width:70px;
-  animation: morphing 20s infinite;
+  height:60px;
+  width:60px;
+  animation: morphing 10s infinite;
   margin: 3px;
   border-radius: 30% 70% 70% 30%/30% 30% 70% 70%
 }
 
 .cell.empty:hover {
-  background-color: #7b5ab9!important;
+  background-color: #654062!important;
+  opacity:0.5;
 }
 
 .wrapper{
