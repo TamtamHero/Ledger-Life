@@ -12,7 +12,7 @@ const Grid = ({ data, hidden, selectedCells, onSelection, onClearCell, simulatio
 
   const [colorMap, setColorMap] = useState({
     [death]: "#eaffd0",
-    futurePurchase: "#f38181",
+    futurePurchase: "#7b5ab9",
   });
 
   const getNewCellState = useCallback((data, cell) => {
@@ -96,11 +96,16 @@ const Grid = ({ data, hidden, selectedCells, onSelection, onClearCell, simulatio
     // }
     // p5.stroke(0);
     //Draw active boxes
+    let activeCell = null;
+    if (p5.mouseY > height || p5.mouseX > width || p5.mouseY < 0 || p5.mouseX < 0) {
+    } else {
+      activeCell = Math.floor(p5.mouseY / _h) * cols + Math.floor(p5.mouseX / _w);
+    }
     for (let cell = 0; cell < compoundData.length; cell++) {
       const team = compoundData[cell];
       const x = cell % cols;
       const y = Math.floor(cell / cols);
-      const color = getColor(team);
+      const color = activeCell === cell ? "#7b5ab9" : getColor(team);
 
       p5.fill("#654062");
       p5.strokeWeight(0);
