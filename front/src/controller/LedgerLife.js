@@ -2,6 +2,9 @@ import Web3 from "web3";
 import TruffleContract from "truffle-contract";
 import LedgerLifeArtifact from "../contracts/LedgerLife.json";
 
+const GRID_WIDTH = 32;
+const GRID_HEIGHT = 32;
+const SIZE256 = 32;
 class LedgerLife {
   constructor() {
     this.connected = false;
@@ -50,7 +53,21 @@ class LedgerLife {
 
   async getGrid() {
     let grid = await this.contractsInstances.LedgerLife.getGrid.call();
-    return grid.map((playerID) => parseInt(playerID.toString()));
+    grid = grid.map(row => row.toString());
+    console.log(grid);
+    let grid_unpacked = []
+    for (let i = 0; i < GRID_WIDTH*GRID_HEIGHT; i++) {
+      let segment_num = parseInt(i/SIZE256);
+      let element_num = i%SIZE256;
+      let segment = new Web3.utils.BN(grid[segment_num]);
+      let bits_to_shift = (SIZE256-element_num-1) * 8;
+      console.log(`seg: ${segment_num} e: ${element_num} shift: ${bits_to_shift}`);
+      segment = segment.shrn(bits_to_shift);
+      segment = segment.and(new Web3.utils.BN(0xFF));
+      grid_unpacked.push(segment.toNumber());
+      console.log(segment.toNumber());
+    }
+    return grid_unpacked;
   }
 
   async getPlayers() {
@@ -60,7 +77,7 @@ class LedgerLife {
   _serializeCellsArray(cellsArray) {
     let serialized = new Web3.utils.BN(0);
     cellsArray.forEach((cell) => {
-      if (cell < 0 || cell >= 32 * 32) {
+      if (cell < 0 || cell >= GRID_WIDTH * GRID_HEIGHT) {
         throw new Error(`cell index ${cell} is too high`);
       }
       serialized = serialized.mul(new Web3.utils.BN(2 ** 12));
