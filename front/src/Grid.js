@@ -92,7 +92,7 @@ const Grid = ({ data, hidden, selectedCells, onSelection, onClearCell, simulatio
       {compoundData.map((cell, index) => {
         const color = getColor(cell)
         return(
-        <Cell key={index} empty={colorMap[death] === color} color={color} onClick={() => cellClicked(index)} />
+        <Cell style={{animationDelay: `${Math.round(Math.random()*10)}s`}} key={index} empty={colorMap[death] === color} color={color} onClick={() => cellClicked(index)} />
       )})}
     </div>
   );

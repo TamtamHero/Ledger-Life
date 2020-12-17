@@ -1,5 +1,5 @@
 import React from "react";
 
-export default ({ empty, color, onClick }) => {
-  return <div className={`${empty?"empty":""} cell`} onClick={onClick} style={{ backgroundColor: color }} />;
+export default ({ empty, color, style, onClick }) => {
+  return <div className={`${empty?"empty":""} cell`} onClick={onClick} style={{ ...(style||{}),backgroundColor: color }} />;
 };
