@@ -4,8 +4,8 @@ import Sketch from "react-p5";
 const Grid = ({ data, hidden, selectedCells, onSelection, onClearCell, simulationOffset }) => {
   const width = 660;
   const height = 660;
-  const rows = 20;
-  const cols = 20;
+  const rows = 15;
+  const cols = 15;
   const space = 6;
   const death = 0;
   const futurePurchase = "futurePurchase";
