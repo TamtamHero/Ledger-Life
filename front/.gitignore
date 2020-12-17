@@ -1,2 +1,5 @@
 node_modules/
 front/node_modules/
+front/solidity/build/*.json
+front/src/contracts/*.json
+front/.eslintcache
