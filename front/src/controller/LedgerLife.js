@@ -89,7 +89,8 @@ class LedgerLife {
   async _getPlayerID(playerAddress) {
     let players = await this.getPlayers();
     const alreadyExistingPlayer = players.findIndex((player) => player[0] === playerAddress);
-    if (alreadyExistingPlayer) {
+    if (alreadyExistingPlayer != -1) {
+      console.log("Player already exists :)");
       return alreadyExistingPlayer;
     }
     for (const [index, player] of players.entries()) {
