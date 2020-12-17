@@ -28,6 +28,10 @@ h1{
   border-radius: 15px;
 }
 
+.cell.empty:hover {
+  background-color: #7b5ab9!important;
+}
+
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr ;
